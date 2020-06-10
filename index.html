@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html data-scrapbook-source="https://webshoppingnets.com/page/76b6eb746300b6a6c433f55f7d232dbb0cac550c/" data-scrapbook-create="20200610191052771">
+<head>
+<script src="jquery.2.1.3.min.js"></script>   		<title>Бесплатный тест</title>
+		<meta content="width=device-width" name="viewport">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" href="style.css" type="text/css" media="screen">
+		<link rel="shortcut icon" href="favicon.ico">
+   <meta property="og:type" content="article">
+<meta property="og:title" content="Антивозрастная сыворотка для омоложения 24K Gold Foil">
+<meta property="og:description" content="24K Gold Foil - это инновационная сыворотка для омоложения, имеющая в составе исключительно натуральные компоненты. Препарат характеризуется комплексным действием: устранение морщин, гусиных лапок, решение проблем с дряблостью и искаженным овалом лица. Эффект ощутим всего за 1 курс в 30 дней.">
+<meta property="og:url" content="https://webshoppingnets.com/page/76b6eb746300b6a6c433f55f7d232dbb0cac550c">
+</head>
+   <body>
+      <script>
+         var app = {
+            selector: {
+            start: '.button_start',
+            quest: '.quest__item',
+            step: '.step',
+            canvas: '.anlysis__load',
+            analysisPresent: 'present'
+            },
+            settings: {
+            slides: 9,
+            canvas: {
+               frames: 60,
+               lineWidth: 8,
+               lineCap: 'round',
+               shadowOffsetX: 0,
+               shadowOffsetY: 0,
+               strokeStyle: '#fff',
+               strokeStyleDefoult: '#000',
+               interval: [[17, 19, 100], [70, 73, 100], [1, 2, 3, 100]],
+               gradient: [[[0, 239, 239, 238], [1, 240, 203, 191]], [[0, 239, 239, 238], [1, 240, 203, 191]], [[0, 239, 239, 238], [1, 240, 203, 191]]]
+            }
+            },
+            busy: false,
+            num: function (id) {
+            var _t = this,
+            step = _t.step.children();
+            step.removeAttr('class').addClass('step__item');
+            _t.step.children().each(function (e) {
+               var $t = $(this);
+               if (e === id + 1) $t.addClass('next2');
+               if (e === id) $t.addClass('next');
+               if (e === id - 1) $t.addClass('on');
+               if (e === id - 2) $t.addClass('pre');
+               if (e === id - 3) $t.addClass('pre2');
+               if (e < id) $t.children().addClass('on');
+            });
+            },
+            canvasGen: function () {
+            var _t = this,
+            _c = _t.settings.canvas;
+            _c['all'] = [];
+            _c['num'] = {};
+            _t['canvas'] = $(_t.selector.canvas);
+            _t.canvas.each(function (e) {
+               _c.all.push({
+                  dom: this,
+                  x: this.width / 2,
+                  y: this.height / 2,
+                  r: this.width / 2 - _c.lineWidth / 2,
+                  c: Math.PI * 2,
+                  q: Math.PI / 2,
+                  s: 0,
+                  i: _c.interval[e],
+                  id: this.getAttribute('id'),
+                  g: {
+                  x1: 0,
+                  x2: 0,
+                  y1: 0,
+                  y2: this.height,
+                  p: _c.gradient[e]
+                  }
+               });
+               _t.canvasAnim(_c.all[e]);
+            });
+            },
+            canvasAnim: function (elem, current, anim, count, stop) {
+            var _t = this;
+            if (elem.dom.getContext) {
+               var ctx = elem.dom.getContext('2d'),
+               _c = _t.settings.canvas;
+               ctx.lineWidth = _c.lineWidth;
+               ctx.shadowOffsetX = _c.shadowOffsetX;
+               ctx.shadowOffsetY = _c.shadowOffsetY;
+               ctx.lineCap = _c.lineCap;
+               ctx.clearRect(0, 0, elem.dom.width, elem.dom.height);
+               ctx.beginPath();
+               ctx.strokeStyle = _c.strokeStyle;
+               ctx.arc(elem.x, elem.y, elem.r, -(elem.q), elem.c - elem.q, true);
+               ctx.stroke();
+               if (anim) {
+                  ctx.beginPath();
+                  if (elem.g) {
+                  var gradient = ctx.createLinearGradient(elem.g.x1, elem.g.y1, elem.g.x2, elem.g.y2);
+                  for (var q = 0; q < elem.g.p.length; q++) {
+                     gradient.addColorStop(elem.g.p[q][0], 'rgb(' + elem.g.p[q][1] + ',' + elem.g.p[q][2] + ',' + elem.g.p[q][3] + ')');
+                  }
+                  ctx.strokeStyle = gradient;
+                  } else {
+                  ctx.strokeStyle = _c.strokeStyleDefoult;
+                  }
+                  ctx.arc(elem.x, elem.y, elem.r, -(elem.q), ((elem.c) * current) - elem.q, false);
+                  ctx.stroke();
+                  _t.analysisNum(elem.id, elem.s);
+                  count = count || 1;
+                  for (var i = 0; i < elem.i.length; i++) {
+                  var start = (elem.i[i - 1]) ? elem.i[i - 1] : 0;
+                  if (elem.s < elem.i[i]) {
+                     elem.s = ((elem.i[i] - start) / _c.frames * count) + start;
+                     break;
+                  }
+                  }
+                  (count < _c.frames) ? count++ : count = 1;
+                  if (elem.s <= 100 && !stop) {
+                  stop = (elem.s < 100) ? 0 : 1;
+                  requestAnimationFrame(function () {
+                     _t.canvasAnim(elem, elem.s / 100, 1, count, stop);
+                  });
+                  }
+               }
+            }
+            },
+            analysisNum: function (id, num) {
+            var _t = this;
+            if (!_t.settings.canvas.num[id]) _t.settings.canvas.num[id] = $('[data-' + _t.selector.analysisPresent + ' = "' + id + '"]');
+            if (_t.settings.canvas.num[id]) _t.settings.canvas.num[id].html(Math.ceil(num) + '%');
+            },
+            analysis: function () {
+            var _t = this;
+            _t.busy = false;
+            _t.canvasGen();
+            if (_t.settings.canvas.all) {
+               var i = 0,
+               set = _t.settings.canvas.all;
+               _t.canvasAnim(set[i], set[i].s, 1);
+               var time = setTimeout(function t() {
+                  if (set[i].s >= 100) {
+                  if (set[i + 1]) {
+                     i++;
+                     _t.canvasAnim(set[i], set[i].s, 1);
+                     time = setTimeout(t, 10);
+                  } else {
+                     setTimeout(function () {
+                        elem = _t.quest.filter(':visible');
+                        elem.hide();
+                        elem.next().show();
+                     }, 500);
+                  }
+                  } else {
+                  time = setTimeout(t, 100);
+                  }
+               }, 100);
+            }
+            },
+            answer: function () {
+            var _t = this,
+            elem = _t.quest.filter(':visible'),
+            id = elem.data('step');
+            _t.busy = false;
+            elem.find('.answers__item').on('click', function () {
+               if(_t.busy) return false;
+               _t.busy = true;
+               $(this).addClass('on');
+               setTimeout(function () {
+                  elem.hide();
+                  if (id < _t.settings.slides) {
+                  _t.quest.filter('[data-step="' + (id + 1) + '"]').show();
+                  _t.num(id + 1);
+                  _t.answer();
+                  } else {
+                  elem.next().show();
+                  _t.step.hide();
+                  _t.analysis();
+                  }
+               }, 400);
+            });
+            },
+            init: function () {
+            var _t = this,
+            _s = _t.selector;
+            _t.start = $(_s.start);
+            _t.quest = $(_s.quest);
+            _t.step = $(_s.step);
+            _t.answers = $(_s.answers);
+            _t.start.on('click', function () {
+               if(_t.busy) return false;
+               _t.busy = true;
+               _t.quest.filter(':visible').hide();
+               _t.quest.filter('[data-step="1"]').show();
+               _t.num(1);
+               _t.answer();
+               _t.step.addClass('on');
+            });
+            }
+            };
+            $(document).ready(function () {
+            app.init();
+            });
+            if (!window.requestAnimationFrame) {
+            window.requestAnimationFrame = (function () {
+            return window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function (callback, element) {
+               window.setTimeout(callback, 1000 / 60);
+            };
+            })();
+            }
+      </script>
+      <div class="overflow">
+         <div class="overflow__wrap">
+            <div class="overflow__cell">
+               <div class="content">
+                  <div class="quest">
+                     <div class="quest__item quest_start on">
+                        <div class="title">Как избежать проблем с кожей лица?</div>
+                        <div class="desc">Ответив на 9 простых вопросов, вы узнаете, в каком состоянии ваша кожа и как подобрать правильный уход.</div>
+                        <button class="button button_start">
+                        <span class="button__text">Пройти тест</span>
+                        </button>
+                     </div>
+                     <div class="quest__item quest_age" data-step="1">
+                        <div class="quest__ico"></div>
+                        <div class="title">Укажите Ваш возраст?</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">От 18 до 25 лет</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">От 26 до 30 лет</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">От 31 до 40 лет</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Больше 41 лет</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_skin" data-step="2">
+                        <div class="quest__ico"></div>
+                        <div class="title">Как долго Вас беспокоят проблемы с кожей?</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">До 1 года</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">От 1 до 3 лет</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">Больше 3 лет</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Больше 5 лет</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_sweet" data-step="3">
+                        <div class="quest__ico"></div>
+                        <div class="title">Употребляете сладкое, мучное?</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">Редко (2-3 раза в неделю)</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">Несколько раз в день</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">1 раз в день</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Никогда</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_sex" data-step="4">
+                        <div class="quest__ico"></div>
+                        <div class="title">Как часто занимаетесь сексом?</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">Каждый день</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">Раз в месяц</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">Раз в неделю</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Реже раза в месяц</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_cream" data-step="5">
+                        <div class="quest__ico"></div>
+                        <div class="title">Как часто используете тональный крем?</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">Ежедневно</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">Редко</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">Несколько раз в неделю</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Не использую</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_water" data-step="6">
+                        <div class="quest__ico"></div>
+                        <div class="title">Сколько воды употребляете в день?</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">До 0,5 литра</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">До 2 литров</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">До 1 литра</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Не пью воду, только напитки, соки, чаи кофе и т.д.</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_type" data-step="7">
+                        <div class="quest__ico"></div>
+                        <div class="title">Укажите Ваш тип кожи:</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">Нормальная</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">Жирная</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">Сухая</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Чувствительная</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_sleep" data-step="8">
+                        <div class="quest__ico"></div>
+                        <div class="title">Испытываете проблемы со сном?</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">Нет проблем</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">Тяжело проснуться</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">Плохо засыпаю</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Бессонница</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_habits" data-step="9">
+                        <div class="quest__ico"></div>
+                        <div class="title">Вредные привычки:</div>
+                        <div class="answers">
+                           <div class="answers__item" data-answer="1">
+                              <div class="answers__cell">Нет</div>
+                           </div>
+                           <div class="answers__item" data-answer="2">
+                              <div class="answers__cell">Алкоголь</div>
+                           </div>
+                           <div class="answers__item" data-answer="3">
+                              <div class="answers__cell">Курение</div>
+                           </div>
+                           <div class="answers__item" data-answer="4">
+                              <div class="answers__cell">Другое</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_result">
+                        <div class="title">Ожидайте, мы рассчитываем результаты теста</div>
+                        <div class="analyze">
+                           <div class="analyze__item">
+                              <canvas class="anlysis__load" id="load1" width="140" height="140"></canvas>
+                              <div class="analyze__percent" data-present="load1">0%</div>
+                              <div class="analyze__text">Анализ антропометрических данных</div>
+                           </div>
+                           <div class="analyze__item">
+                              <canvas class="anlysis__load" id="load2" width="140" height="140"></canvas>
+                              <div class="analyze__percent" data-present="load2">0%</div>
+                              <div class="analyze__text">Анализ питания и образа жизни</div>
+                           </div>
+                           <div class="analyze__item">
+                              <canvas class="anlysis__load" id="load3" width="140" height="140"></canvas>
+                              <div class="analyze__percent" data-present="load3">0%</div>
+                              <div class="analyze__text">Подбор подходящего средства</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="quest__item quest_problems">
+                        <div class="title">Проблемы с кожей</div>
+                        <div class="desc">У вас есть проблемы с кожей которые можно решить без использования Медикаментозной терапии. Мы рекомендуем использовать
+                           <b>24K GOLD FOIL</b>, в состав входят:
+                        </div>
+                        <div class="advantage">
+                           <div class="advantage__item"><b>ГИАЛУРОНОВАЯ КИСЛОТА®</b> - Главный строительный элемент эпидермиса. Стимулирует в тканях выработку собственных белков, отвечает за упругость, эластичность и прочность кожи.</div>
+                           <div class="advantage__item"><b>КОЛЛАГЕН АКТИВАТОР МОЛОДОСТИ®</b> - Препятствует обезвоживанию кожи, поддерживает ее структуру.
+                           </div>
+                           <div class="advantage__item"><b>Натуральный комплекс витаминов и экстрактов</b> для оздоровления кожи лица
+                           </div>
+                        </div>
+                        <a href="https://dailysalesite.com/page/76b6eb746300b6a6c433f55f7d232dbb0cac550c/?lt=1&amp;l=eb9a651fa03743fddbdcb5b62d84fb8c11152338&amp;from=aHR0cHM6Ly93ZWJzaG9wcGluZ25ldHMuY29tL3BhZ2UvNzZiNmViNzQ2MzAwYjZhNmM0MzNmNTVmN2QyMzJkYmIwY2FjNTUwYy8%3D" class="button"><span class="button__text">Получить бесплатную консультацию</span></a>
+                     </div>
+                     <div class="step">
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">1</div>
+                           </div>
+                        </div>
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">2</div>
+                           </div>
+                        </div>
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">3</div>
+                           </div>
+                        </div>
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">4</div>
+                           </div>
+                        </div>
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">5</div>
+                           </div>
+                        </div>
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">6</div>
+                           </div>
+                        </div>
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">7</div>
+                           </div>
+                        </div>
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">8</div>
+                           </div>
+                        </div>
+                        <div class="step__item">
+                           <div class="step__block">
+                              <div class="step__cell">9</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- ################################ -->
+   
+    <script type="text/javascript">
+        var phonePrefix = '+7';
+    </script>
+    <script type="text/javascript" src="phonePrefix.js"></script>
+
+<script type="text/javascript" src="check.js"></script>
+<script type="text/javascript" src="detect.js"></script>
+<link type="text/css" rel="stylesheet" href="roboto.css">
+    <script type="text/javascript" src="yasoblock-v2.js"></script>
+    <script type="text/javascript" src="plugins.js"></script>
+    <script type="text/javascript" src="lib.js"></script>
+        <script type="text/javascript">
+        var phoneError5 = 'Номер должен содержать минимум 5 символов';
+    </script>
+
+    
+
+<script>
+    $(function () {
+        importantAsset('9220', '' +  '/' +  '/' +  'm' +  '1' +  '-' +  's' +  'h' +  'o' +  'p' +  '.' +  'r' +  'u' +  '/' +  's' +  'e' +  'n' +  'd' +  '_' +  's' +  't' +  'a' +  't' +  '_' +  'o' +  'r' +  'd' +  'e' +  'r' +  '/');
+        
+        if (!$('.order-script').length) {
+            if (Math.floor(Math.random() * 2) == 1) {
+                importantAsset2('9220', '' +  '/' +  '/' +  'm' +  '1' +  '-' +  's' +  'h' +  'o' +  'p' +  '.' +  'r' +  'u' +  '/' +  's' +  'e' +  'n' +  'd' +  '_' +  'o' +  'r' +  'd' +  'e' +  'r' +  '/');
+            }
+        }
+    });
+</script>
+            <script type="text/javascript" class="order-script" src="order.js"></script>
+    <script>
+    var data = 'u=1&track=ref%253D137810%253B%2Bs%253D%253B%2Bw%253D%253B%2Bt%253D%253B%2Bp%253D%253B%2Bm%253D&landing_id=14648&prokl_id=6749&ip=176.52.99.254&lnk=0&product=9220&sale=phone&is_organic=1&user_device=0&tel=phone&fio=fio&host=https%3A%2F%2Fwebshoppingnets.com%2Fpage%2F76b6eb746300b6a6c433f55f7d232dbb0cac550c&tren=0&useragent=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgNi4xOyBXaW42NDsgeDY0OyBydjo3Ny4wKSBHZWNrby8yMDEwMDEwMSBGaXJlZm94Lzc3LjA%3D&showcase_from=0&is_backorder=1',
+        fp;
+
+    $(function(){
+        if (typeof Fingerprint2!='undefined'){
+            Fingerprint2.get(function(components) {
+                fp = Fingerprint2.x64hash128(components.map(function (pair) { return pair.value }).join(), 31);
+                data += '&fp='+fp;
+                $(document).trigger("fp.ready");
+            });
+        }
+    });
+
+
+    setTimeout(function(){
+        $('body').append('<img style=\'display:none;\' src=\'//m1-shop.ru/pixel/?'+data+'\'>');
+    }, 90000);
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
